@@ -172,6 +172,28 @@ describe("A <StaticRouter>", () => {
       expect(location.pathname).toEqual("/path");
     });
 
+    it("strips base name only", () => {
+      let location;
+      function LocationChecker(props) {
+        location = props.location;
+        return null;
+      }
+
+      const context = {};
+
+      ReactDOMServer.renderToStaticMarkup(
+        <StaticRouter
+          context={context}
+          basename="/hej-da"
+          location="/hej-damer"
+        >
+          <Route component={LocationChecker} />
+        </StaticRouter>
+      );
+
+      expect(location.pathname).toEqual("/hej-damer");
+    });
+
     it("adds the basename to redirect URLs", () => {
       const context = {};
 
